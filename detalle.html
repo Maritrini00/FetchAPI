@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <a href="index.html">INICIO</a>
+    <p id ="id"></p>
+    <p id="cargando">Cargando datos</p>
+    <img src="https://pa1.narvii.com/6707/510b0daee67fbc091f14b9d8ef40aeb6c0d4dc7d_hq.gif" id="cargandoGif">
+    <p id="error"></p>
+    <h1 id="titulo"></h1>
+    
+    <img id="imagen" >
+
+    <script>
+        const url = new URL(window.location.href);
+        console.log(url);
+        const parametro = url.searchParams;
+        const id =parametro.get(`id`);
+        console.log(id);
+        document.getElementById('id').innerHTML = id;
+
+        const urlDetalle = `https://jsonplaceholder.typicode.com/photos/${id}`;
+        fetch(urlDetalle)
+        .then(response => response.json())
+        .then(foto => {
+            document.getElementById(`titulo`).innerHTML=foto.title;
+            document.getElementById(`imagen`).src=foto.url;
+        })
+        .catch(error=>{
+      document.getElementById('error').innerHTML =error.message;
+      console.log(error);
+        })
+        .finally(()=>{
+      document.getElementById('cargando').innerHTML ="";
+      document.getElementById('cargandoGif').src ="";
+      console.log("proceso terminado");
+
+  })
+    </script>
+</body>
+</html>
